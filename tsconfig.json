@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "noImplicitAny": true,
+
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+
+        "moduleResolution": "node",
+        "sourceMap": false,
+        "outDir": ".build",
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "node_modules/*",
+                "api/types/*"
+            ]
+        }
+    },
+    "include": [
+        "api/**/*",
+        "test/**/*"
+    ]
+}

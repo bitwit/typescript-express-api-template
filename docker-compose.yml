@@ -1,0 +1,22 @@
+version: '3'
+services:
+  web:
+    build: .
+    command: npm run gulp
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://todoapp@postgres/todos
+      DATABASE_USER: todoapp
+
+  postgres:
+    image: postgres:10.3
+    environment:
+      POSTGRES_USER: todoapp
+      POSTGRES_DB: todos
