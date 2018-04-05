@@ -1,21 +1,32 @@
 const gulp = require('gulp');
 const gls = require('gulp-live-server');
-const exec = require('child_process').exec;
+const spawn = require('child_process').spawn;
 
 const serverFileName = '.build/api/index.js';
+const pipeOptions = {stdio: 'inherit'}
 
 gulp.task('serve', function() {
 
     const server = gls.new(serverFileName);
     server.start();
  
-    gulp.watch(['**/**/**.{ts,js}'], function() {
-
+    return gulp.watch(['**/**/**.{ts,js}'], {delay: 1200}, function(done) {
         console.log('restarting server...')
-        exec('npm run build', function (err, stdout, stderr) {
-            console.log(stdout);
-            console.log(stderr);
+        spawn('npm', ['run', 'build'], pipeOptions, function (err, stdout, stderr) {
             server.start.bind(server)();
+            done();
+        });
+    });
+});
+
+gulp.task('watch-test', function() {
+
+    spawn('npm', ['test'], pipeOptions);
+    
+    return gulp.watch(['**/**/**.{ts,js}'], {delay: 1200}, function(done) {
+        console.log('re-running tests')
+        spawn('npm', ['test'], pipeOptions, () => {
+            done();
         });
     });
 });

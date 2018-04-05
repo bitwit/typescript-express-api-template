@@ -1,13 +1,9 @@
-import { JsonController, Param, Body, Get, Post, Put, Delete, CurrentUser, Authorized } from "routing-controllers";
+import { Constants } from "../constants";
+import { JsonController, Param, Body, Get, Post, Put, Delete, CurrentUser, Authorized, HttpError, UnauthorizedError } from "routing-controllers";
 import { User } from '../models/entities/User'
 import { IsEmail, IsInt, IsOptional, MinLength, MaxLength } from 'class-validator'
 import { IsEmailAvailable } from './validators/IsEmailAvailable'
-
-class Constants {
-    static readonly PasswordMinLength = 8
-    static readonly PasswordMaxLength = 32
-    static readonly EmailTakenMessage = "Email address is already taken"
-}
+import * as bcrypt from 'bcrypt'
 
 class CreateUserBody {
 
@@ -49,6 +45,11 @@ export class UserController {
     @Post("/")
     @Authorized()
     async post(@Body({ validate: true }) user: CreateUserBody) {
+
+        var salt = await bcrypt.genSalt(Constants.HashDifficulty)
+		var hashPassword = await bcrypt.hash(user.password, salt);
+        user.password = hashPassword
+
         let newUser = await User.create(user)
         return await newUser.save()
     }
@@ -61,10 +62,11 @@ export class UserController {
         @Body({ validate: true }) userData: UpdateUserBody) {
 
         if (id != currentUser.id) {
-            throw new Error("Can not edit other users")
+            throw new UnauthorizedError("Can not edit other users")
         }
 
-        return await User.updateById(id, userData)
+        Object.assign(currentUser, userData)
+        return currentUser.save()
     }
 
     @Delete("/:id")
