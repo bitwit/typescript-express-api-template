@@ -7,9 +7,14 @@ Work in progress template for cloning
 1. Get Docker
 2. `$ docker-compose up`
 
-## To-dos
+## Capabilities out of the box
 
-- Node Mailer
+- Express server powered using TypeScript friendly `routing-controllers` and `type-orm`
+- All the boring user management boilerplate
+- E2E tests for all boilerplated API
+- Server side rendering of React TSX files, including email
+
+## To-dos
 
 - User CRUD
   - Password email reset

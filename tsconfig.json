@@ -16,7 +16,8 @@
                 "node_modules/*",
                 "api/types/*"
             ]
-        }
+        },
+        "jsx": "react"
     },
     "include": [
         "api/**/*",

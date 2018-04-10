@@ -6,5 +6,3 @@ COPY package.json .
 
 RUN npm install -g typescript typeorm gulp-cli
 RUN npm install --verbose
-
-COPY . .
