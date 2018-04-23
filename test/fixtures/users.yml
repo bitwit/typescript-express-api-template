@@ -1,0 +1,9 @@
+fixtures:
+    - User:
+        id: 1
+        email: t@t1.com
+        password: "$2a$12$AeLkrNG2Lje156hKYft/CurW8xm/2gGq2Z26OKOwpeIn3XabfM3.." # 12345678
+    - User:
+        id: 2
+        email: second@user.com
+        password: "$2a$12$AeLkrNG2Lje156hKYft/CurW8xm/2gGq2Z26OKOwpeIn3XabfM3.." # 12345678

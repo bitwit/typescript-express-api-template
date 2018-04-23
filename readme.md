@@ -16,6 +16,7 @@ Work in progress template for cloning
 
 ## To-dos
 
+- Fixtures for e2e testing
 - User CRUD
   - Password email reset
   - Email confirmation status

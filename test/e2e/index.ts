@@ -2,6 +2,7 @@ import * as request from 'supertest'
 import * as mocha from 'mocha'
 import * as chai from 'chai'
 import { app, startServer, stopServer } from '../../api/server'
+import { loadFixtures } from '../fixtures/loader'
 
 interface Credentials {
     email: string
@@ -11,7 +12,7 @@ interface Credentials {
 const Input = {
     badUser: { email: 't', password: 'p' },
     user1: { email: 't@t1.com', password: '12345678' },
-    user2: { email: 't@t2.com', password: '12345678' }
+    newUser1: { email: 'hi@cool.com', password: '12345678' }
 }
 
 describe("http test", () => {
@@ -20,7 +21,9 @@ describe("http test", () => {
 
     before(async () => {
         let dbConnection = await startServer()
-        return await dbConnection.synchronize(true)
+        await dbConnection.synchronize(true)
+        await loadFixtures("users", dbConnection)
+        await dbConnection.synchronize()
     })
 
     after(() => {
@@ -59,14 +62,17 @@ describe("http test", () => {
     it('should create a user', () => {
         return request(app)
             .post('/users')
-            .send(Input.user1)
+            .send(Input.newUser1)
+            .expect((res: any) => {
+                console.log('new user body', res.body)
+            })
             .expect(200)
     })
 
     it('should NOT create a user if the email exists in the database', () => {
         return request(app)
             .post('/users')
-            .send(Input.user1)
+            .send(Input.newUser1)
             .expect((res: any) => {
                 chai.expect(res.body.name).to.equal('BadRequestError')
 
@@ -77,13 +83,6 @@ describe("http test", () => {
                 chai.expect(res.body.errors[0].constraints.isEmailAvailable).to.exist
             })
             .expect(400)
-    })
-
-    it('should create a second user', () => {
-        return request(app)
-            .post('/users')
-            .send(Input.user2)
-            .expect(200)
     })
 
     it('should NOT log the user in when credentials are wrong', () => {
@@ -149,7 +148,7 @@ describe("http test", () => {
             .put('/users/1')
             .set('Authorization', authToken)
             .send({
-                email: Input.user2.email
+                email: Input.newUser1.email
             })
             .expect((res: any) => {
                 chai.expect(res.body.name).to.equal('BadRequestError')
@@ -168,7 +167,7 @@ describe("http test", () => {
             .put('/users/2')
             .set('Authorization', authToken)
             .send({
-                password: Input.user2.password
+                password: 'hellothere'
             })
             .expect((res: any) => {
                 chai.expect(res.body.name).to.equal('UnauthorizedError')
