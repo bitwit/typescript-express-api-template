@@ -11,20 +11,18 @@ Work in progress template for cloning
 
 - Express server powered using TypeScript friendly `routing-controllers` and `type-orm`
 - All the boring user management boilerplate
-- E2E tests for all boilerplated API
 - Server side rendering of React TSX files, including email
+- Automatic Swagger docs generation generated from `routing-controllers` decorators and return types
+- E2E tests for all boilerplated API
+  - Fixtures for e2e testing
 
 ## To-dos
 
-- Swagger docs generation support
-- Fixtures for e2e testing
 - User CRUD
   - Password email reset
   - Email confirmation status
     - User creation via email reset flow (i.e. confirmation)
     - Device Authorization via email
-
-
 
 - Todo Management
   - CRUD Todo List
