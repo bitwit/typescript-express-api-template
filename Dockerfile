@@ -4,5 +4,5 @@ WORKDIR /usr/app
 
 COPY package.json .
 
-RUN npm install -g typescript typeorm gulp-cli
-RUN npm install --verbose
+RUN npm install -g typescript typeorm gulp-cli yarn
+RUN yarn install

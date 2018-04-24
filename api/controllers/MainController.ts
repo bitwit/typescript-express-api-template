@@ -19,15 +19,20 @@ export class MainController {
 
     @Post("/login")
     async login(@Body() credentials: LoginBody) {
-        const user = await User.findOne({ where: { email: credentials.email } })
 
-        let matches = await bcrypt.compare(credentials.password, user.password)
-        if (!matches) {
+        try {
+            const user = await User.findOne({ where: { email: credentials.email } })
+            let matches = await bcrypt.compare(credentials.password, user.password)
+            if (!matches) {
+                throw new Error()
+            }
+            let authToken = new AuthToken()
+            authToken.user = user
+            await authToken.save()
+            return AuthToken.findOne({ token: authToken.token })
+        } catch {
             throw new HttpError(400, "Credentials do not match")
         }
-        let authToken = new AuthToken()
-        authToken.user = user
-        await authToken.save()
-        return AuthToken.findOne({ token: authToken.token })
+
     }
 }

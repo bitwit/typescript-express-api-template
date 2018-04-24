@@ -16,6 +16,7 @@ Work in progress template for cloning
 
 ## To-dos
 
+- Swagger docs generation support
 - Fixtures for e2e testing
 - User CRUD
   - Password email reset
@@ -23,13 +24,14 @@ Work in progress template for cloning
     - User creation via email reset flow (i.e. confirmation)
     - Device Authorization via email
 
+
+
 - Todo Management
   - CRUD Todo List
   - CRUD Todo List Item
 
 ### Nice to have
 
-- Swagger docs generation support
 - iOS Push Notification support
 - Google OAuth Signup
 - Facebook OAuth Signup
