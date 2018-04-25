@@ -3,7 +3,6 @@ import { JsonController, Param, Body, Get, Post, Put, Delete, CurrentUser, Autho
 import { User } from '../models/entities/User'
 import { IsEmail, IsInt, IsOptional, MinLength, MaxLength } from 'class-validator'
 import { IsEmailAvailable } from './validators/IsEmailAvailable'
-import * as bcrypt from 'bcrypt'
 
 class CreateUserBody {
 
@@ -45,12 +44,8 @@ export class UserController {
     @Post("/")
     @Authorized()
     async post(@Body({ validate: true }) user: CreateUserBody) {
-
-        var salt = await bcrypt.genSalt(Constants.HashDifficulty)
-		var hashPassword = await bcrypt.hash(user.password, salt);
-        user.password = hashPassword
-
         let newUser = await User.create(user)
+        newUser.setNewPasswordSecurely(user.password)
         return await newUser.save()
     }
 

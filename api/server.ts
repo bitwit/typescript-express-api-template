@@ -5,15 +5,15 @@ import { routing } from './routing'
 import * as express from 'express'
 import * as http from 'http'
 
-const swaggerJson = require('../swagger.json')
+// const swaggerJson = require('../swagger.json')
 
 export const app = createExpressServer(routing)
 const httpServer = http.createServer(app)
 
-app.use('/swagger', express.static('swagger'))
-app.get('/docs', (req: any, res: any) => {
-    res.send(swaggerJson)
-})
+// app.use('/swagger', express.static('swagger'))
+// app.get('/docs', (req: any, res: any) => {
+//     res.send(swaggerJson)
+// })
 
 const postGresConfig: ConnectionOptions = {
     type: "postgres",

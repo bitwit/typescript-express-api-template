@@ -7,3 +7,12 @@ fixtures:
         id: 2
         email: second@user.com
         password: "$2a$12$AeLkrNG2Lje156hKYft/CurW8xm/2gGq2Z26OKOwpeIn3XabfM3.." # 12345678
+    - AuthToken:
+        user: 
+            id: 1
+        token: 5cea5821-4e70-4f4b-b700-60f83d547e9c
+        refreshToken: a5f35513-b15a-4d8a-ada3-a3e168fa2988
+    - PasswordResetRequest:
+        user:
+            id: 1
+        token: 8ede5821-4e70-4e4e-e700-60e83e547e9e

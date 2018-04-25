@@ -3,13 +3,13 @@ import { User } from "./User"
 import * as uuid from 'uuid'
 
 @Entity()
-class PasswordResetRequest extends BaseEntity {
+class Device extends BaseEntity {
 
   @PrimaryColumn("uuid")
-  token: string
+  id: string
 
-  @Column({ default: () => "(CURRENT_TIMESTAMP + interval '1' day)" })
-  expiry: Date
+  @Column({ nullable: true })
+  iosNotificationToken: String
 
   @OneToOne(type => User, { nullable: false })
   @JoinColumn()
@@ -17,8 +17,8 @@ class PasswordResetRequest extends BaseEntity {
 
   public constructor() {
     super()
-    this.token = uuid.v4()
+    this.id = uuid.v4()
   }
 }
 
-export { PasswordResetRequest }
+export { Device }

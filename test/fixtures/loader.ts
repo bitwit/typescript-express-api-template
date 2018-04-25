@@ -20,8 +20,6 @@ export async function loadFixtures(name: string, dbConnection: Connection): Prom
     items.forEach(async (item: any) => {
         const entityName = Object.keys(item)[0]
         const data = item[entityName]
-        const repo = dbConnection.getRepository(entityName) 
-        const newEntity = repo.create(data)
-        await repo.createQueryBuilder().insert().into(entityName).values(data).execute()
+        await dbConnection.createQueryBuilder().insert().into(entityName).values(data).execute()
     })
 }

@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf .build && npm run experimental-generate-docs && tsc",
+    "build": "rm -rf .build && tsc",
     "start": "npm run build && node .build/api/index.js",
-    "test": "npm run build && mocha .build/test/e2e/index.js",
+    "test": "npm run build && mocha .build/test/e2e/**/**_Spec.js",
     "resetdb": "npm run build && node .build/test/commands/resetdb.js",
     "experimental-generate-docs": "tsc docs-generator.ts --m commonjs --outDir ./.build && node ./.build/docs-generator.js api/controllers/**.ts",
     "gulp": "npm run build && gulp serve",

@@ -28,7 +28,7 @@ export class PasswordController {
     async postReset(@Body({ validate: true }) body: ResetPasswordRequestBody) {
         try {
             const userRecord = await User.findOne({ where: { email: body.email } })
-            const resetRequest = PasswordResetRequest.create({ user: body })
+            const resetRequest = PasswordResetRequest.create({ user: userRecord })
             await resetRequest.save()
         } catch (err) { }
 
@@ -39,9 +39,8 @@ export class PasswordController {
     @Post("/reset")
     @Authorized()
     async post(@Body({ validate: true }) body: ResetPasswordBody) {
-
         const resetRequest = await PasswordResetRequest.findOne({ where: { token: body.token }, relations: ["user"] })
-        resetRequest.user.password = body.password
+        await resetRequest.user.setNewPasswordSecurely(body.password)
         await resetRequest.user.save()
         return Constants.DefaultSuccessBody
     }

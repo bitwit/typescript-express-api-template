@@ -4,20 +4,14 @@ import * as chai from 'chai'
 import { app, startServer, stopServer } from '../../api/server'
 import { loadFixtures } from '../fixtures/loader'
 
-interface Credentials {
-    email: string
-    password: string
-}
-
 const Input = {
     badUser: { email: 't', password: 'p' },
     user1: { email: 't@t1.com', password: '12345678' },
-    newUser1: { email: 'hi@cool.com', password: '12345678' }
+    newUser1: { email: 'hi@cool.com', password: '12345678' },
+    user1AuthToken: "5cea5821-4e70-4f4b-b700-60f83d547e9c"
 }
 
 describe("http test", () => {
-
-    let authToken = ""
 
     before(async () => {
         let dbConnection = await startServer()
@@ -95,29 +89,10 @@ describe("http test", () => {
             .expect(400)
     })
 
-    it('should log the user in', () => {
-        return request(app)
-            .post('/login')
-            .send(Input.user1)
-            .expect((res: any) => {
-                const expectedKeys = [
-                    'token',
-                    'expiry',
-                    'refreshToken',
-                    'refreshExpiry'
-                ]
-                chai.expect(res.body).contains.all.keys(expectedKeys)
-                chai.expect(Object.keys(expectedKeys).length).to.equal(expectedKeys.length)
-
-                authToken = res.body.token
-            })
-            .expect(200)
-    })
-
     it('should NOT let the user update their email to another email that exists in the database', () => {
         return request(app)
             .put('/users/1')
-            .set('Authorization', authToken)
+            .set('Authorization', Input.user1AuthToken)
             .send({
                 email: Input.user1.email
             })
@@ -136,7 +111,7 @@ describe("http test", () => {
     it('should let the user update their data', () => {
         return request(app)
             .put('/users/1')
-            .set('Authorization', authToken)
+            .set('Authorization', Input.user1AuthToken)
             .send({
                 email: Math.random() + "@email.com"
             })
@@ -146,7 +121,7 @@ describe("http test", () => {
     it('should NOT let the user update their email to another email that exists in the database', () => {
         return request(app)
             .put('/users/1')
-            .set('Authorization', authToken)
+            .set('Authorization', Input.user1AuthToken)
             .send({
                 email: Input.newUser1.email
             })
@@ -165,7 +140,7 @@ describe("http test", () => {
     it('should NOT let the user update another user', () => {
         return request(app)
             .put('/users/2')
-            .set('Authorization', authToken)
+            .set('Authorization', Input.user1AuthToken)
             .send({
                 password: 'hellothere'
             })
