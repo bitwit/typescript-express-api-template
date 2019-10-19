@@ -20,7 +20,8 @@ const postGresConfig: ConnectionOptions = {
     url: process.env["DATABASE_URL"],
     username: process.env["DATABASE_USER"],
     entities: [__dirname + "/models/entities/**.js"],
-    logging: true
+    logging: true,
+    synchronize: true
 }
 
 let connection: Connection = null

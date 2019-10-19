@@ -146,6 +146,10 @@ function buildRawTypes(fileNames: string[], options: ts.CompilerOptions): Object
                         .map(c => c.getText())
                 }
 
+		if(!mSymbol) {
+			return;
+		}
+
                 docBody.properties.push({
                     name: mSymbol.name,
                     decorators: decors.map(d => d.getText()),
