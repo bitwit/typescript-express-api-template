@@ -40,7 +40,7 @@
     "react-dom": "^16.3.1",
     "reflect-metadata": "^0.1.12",
     "routing-controllers": "^0.7.7",
-    "typeorm": "^0.1.20",
+    "typeorm": "^0.2.25",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
