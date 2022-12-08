@@ -28,7 +28,7 @@
     "@types/uuid": "^3.4.3",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.2",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "js-yaml": "^3.13.1",
     "juice": "^4.2.3",
     "lodash": "^4.17.15",
